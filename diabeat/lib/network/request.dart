@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:diabeat/network/connection.dart' as connection;
-import 'package:diabeat/network/dialog/disconnected_dialog.dart';
 import 'package:diabeat/network/dialog/refresh_failed_dialog.dart';
 import 'package:diabeat/network/session.dart' as session;
 import 'package:diabeat/network/dialog/timeout_dialog.dart';
@@ -13,11 +12,7 @@ Future<(bool, dynamic)> logIn(
   BuildContext context, {
   required String email,
   required String password,
-}) async {
-  if (!await _connect(context) || !context.mounted) {
-    return (false, null);
-  }
-
+}) {
   return _handle(context, () async {
     final res = await _timeout(
       http.post(
@@ -35,11 +30,7 @@ Future<(bool, dynamic)> register(
   required String email,
   required String username,
   required String password,
-}) async {
-  if (!await _connect(context) || !context.mounted) {
-    return (false, null);
-  }
-
+}) {
   return _handle(context, () async {
     final res = await _timeout(
       http.post(
@@ -177,11 +168,6 @@ Map<String, String> _configHeaders(
 
 Future<T> _timeout<T extends http.BaseResponse>(Future<T> future) {
   return future.timeout(const Duration(seconds: 3));
-}
-
-/// should only be called in "login" and "register"
-Future<bool> _connect(BuildContext context) async {
-  return connection.existAddr || await DisconnectedDialog.show(context) == true;
 }
 
 /// should only be called in "_handle"

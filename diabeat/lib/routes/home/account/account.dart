@@ -39,14 +39,6 @@ class _AccountPageState extends State<AccountPage> {
               : const Icon(Icons.email_rounded),
         ),
         title: Text(_usernameOrEmail ? session.username : session.email),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).pushNamed('/scanner');
-            },
-            icon: const Icon(Icons.qr_code_scanner_rounded),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

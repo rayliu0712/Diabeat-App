@@ -1,27 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-final _prefs = SharedPreferencesAsync();
-
-Future<String?> _rawAddr() {
-  return _prefs.getString('addr');
-}
-
-Future<bool> existAddr() async {
-  return await _rawAddr() != null;
-}
-
-Future<String> readAddr() async {
-  return (await _rawAddr())!;
-}
-
-void writeAddr(String addr) {
-  _prefs.setString('addr', addr);
-}
-
-/* */
-/* */
-/* ===== Encrypted Shared Prefs ===== */
 
 typedef Session = ({
   String email,

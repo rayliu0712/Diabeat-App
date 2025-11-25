@@ -1,30 +1,18 @@
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 
-enum _TimeoutDialogNav { scan, retry }
-
 class TimeoutDialog extends StatelessWidget {
   const TimeoutDialog._();
 
   /// retry  : true
   ///
   /// cancel : null
-  static Future<dynamic> show(BuildContext context) async {
-    final nav = await showDialog(
+  static Future<dynamic> show(BuildContext context) {
+    return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => const TimeoutDialog._(),
     );
-    if (!context.mounted) return null;
-
-    return switch (nav) {
-      _TimeoutDialogNav.scan => Navigator.of(
-        context,
-        rootNavigator: true,
-      ).pushNamed('/scanner'),
-      _TimeoutDialogNav.retry => true,
-      _ => null,
-    };
   }
 
   @override
@@ -35,18 +23,9 @@ class TimeoutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          FilledButton.icon(
-            onPressed: () {
-              Navigator.pop(context, _TimeoutDialogNav.scan);
-            },
-            style: util.filledPageButtonStyle(),
-            icon: const Icon(Icons.qr_code_scanner_rounded),
-            label: const Text('連接'),
-          ),
-          const SizedBox(height: 10),
           FilledButton.tonalIcon(
             onPressed: () {
-              Navigator.pop(context, _TimeoutDialogNav.retry);
+              Navigator.pop(context, true);
             },
             style: util.tonalPageButtonStyle(context),
             icon: const Icon(Icons.replay_rounded),

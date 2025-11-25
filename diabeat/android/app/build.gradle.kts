@@ -39,6 +39,7 @@ android {
         versionName = flutter.versionName
     }
 
+    /*
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String
@@ -47,7 +48,9 @@ android {
             storePassword = keystoreProperties["storePassword"] as String
         }
     }
+    */
 
+    /*
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
@@ -55,6 +58,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+    */
 }
 
 flutter {
