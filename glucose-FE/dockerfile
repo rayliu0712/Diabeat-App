@@ -1,9 +1,0 @@
-FROM node as build
-WORKDIR /app/frontend
-COPY . . 
-RUN npm install
-RUN npm run build
-
-FROM httpd:2.4
-COPY --from=build /app/frontend/dist /usr/local/apache2/htdocs/
-EXPOSE 80

@@ -1,3 +1,0 @@
-新增端口/api/auth/google
-輸入你從google oauth獲得的code
-以json格式{"code":"the code you get"}

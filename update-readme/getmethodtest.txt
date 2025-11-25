@@ -1,3 +1,0 @@
-需要庫為django djangorestframework
-
-get數據端口為:/api/user/glucose
