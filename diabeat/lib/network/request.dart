@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:diabeat/network/connection.dart' as connection;
 import 'package:diabeat/network/dialog/refresh_failed_dialog.dart';
 import 'package:diabeat/network/session.dart' as session;
 import 'package:diabeat/network/dialog/timeout_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+
+Uri _makeUrl(String path) {
+  return Uri.https('api.rayliu0712.uk', '/api$path/');
+}
 
 Future<(bool, dynamic)> logIn(
   BuildContext context, {
@@ -16,7 +19,7 @@ Future<(bool, dynamic)> logIn(
   return _handle(context, () async {
     final res = await _timeout(
       http.post(
-        connection.makeUrl('/token'),
+        _makeUrl('/token'),
         body: {'username_or_email': email, 'password': password},
       ),
     );
@@ -34,7 +37,7 @@ Future<(bool, dynamic)> register(
   return _handle(context, () async {
     final res = await _timeout(
       http.post(
-        connection.makeUrl('/register'),
+        _makeUrl('/register'),
         body: {'email': email, 'username': username, 'password': password},
       ),
     );
@@ -53,7 +56,7 @@ Future<(bool, dynamic)> postRecord(
   return _handle(context, () async {
     final res = await _timeout(
       http.post(
-        connection.makeUrl('/records'),
+        _makeUrl('/records'),
         headers: _configHeaders({}, auth: true, json: true),
         body: jsonEncode({
           'blood_glucose': glucose,
@@ -72,7 +75,7 @@ Future<(bool, dynamic)> getRecords(BuildContext context) {
   return _handle(context, () async {
     final res = await _timeout(
       http.get(
-        connection.makeUrl('/records'),
+        _makeUrl('/records'),
         headers: _configHeaders({}, auth: true),
       ),
     );
@@ -85,7 +88,7 @@ Future<(bool, dynamic)> predictCarbs(BuildContext context, XFile xFile) {
   return _handle(context, () async {
     final request = http.MultipartRequest(
       'POST',
-      connection.makeUrl('/predict'),
+      _makeUrl('/predict'),
     );
 
     _configHeaders(request.headers, auth: true);
@@ -118,7 +121,7 @@ Future<(bool, dynamic)> predictDiabetes(
   return _handle(context, () async {
     final res = await _timeout(
       http.post(
-        connection.makeUrl('/predictform'),
+        _makeUrl('/predictform'),
         headers: _configHeaders({}, auth: true, json: true),
         body: jsonEncode({
           'gender': gender,
@@ -140,7 +143,7 @@ Future<(bool, dynamic)> predictDiabetes(
 Future<(bool, dynamic)> consult(BuildContext context) {
   return _handle(context, () async {
     final res = await http.get(
-      connection.makeUrl('/chat'),
+      _makeUrl('/chat'),
       headers: _configHeaders({}, auth: true),
     );
 
@@ -174,7 +177,7 @@ Future<T> _timeout<T extends http.BaseResponse>(Future<T> future) {
 Future<bool> _refresh(BuildContext context) async {
   final res = await _timeout(
     http.post(
-      connection.makeUrl('/token/refresh'),
+      _makeUrl('/token/refresh'),
       body: {'refresh': session.refreshToken},
     ),
   );
