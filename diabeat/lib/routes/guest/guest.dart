@@ -2,6 +2,7 @@ import 'package:diabeat/routes/guest/login.dart';
 import 'package:diabeat/routes/guest/register.dart';
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GuestPage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _GuestPageState extends State<GuestPage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        setState(() => _appOrOrgName ^= true);
+                        setState(() => _appOrOrgName = !_appOrOrgName);
                       },
                       child: _appOrOrgName
                           ? const Text(
@@ -96,16 +97,10 @@ class _GuestPageState extends State<GuestPage> {
   }
 
   void _goLogin() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginPage()),
-    );
+    context.push('/guest/login');
   }
 
   void _goRegister() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const RegisterPage()),
-    );
+    context.push('/guest/register');
   }
 }

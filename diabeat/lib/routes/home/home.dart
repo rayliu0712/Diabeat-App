@@ -1,71 +1,52 @@
+import 'dart:developer';
+
 import 'package:diabeat/routes/home/account/account.dart';
 import 'package:diabeat/routes/home/history/history.dart';
 import 'package:diabeat/routes/home/record/record.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class HomePage extends StatelessWidget {
+  final StatefulNavigationShell navigationShell;
   final _recordKey = GlobalKey<RecordPageState>();
   final _historyKey = GlobalKey<HistoryPageState>();
   final _accountNavigatorKey = GlobalKey<NavigatorState>();
-  int _index = 0;
+
+  HomePage({super.key, required this.navigationShell});
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
+        final router = GoRouter.of(context);
 
-        final navigator = Navigator.of(
-          switch (_index) {
-            0 => _recordKey,
-            1 => _historyKey,
-            _ => _accountNavigatorKey,
-          }.currentContext!,
-        );
-
-        if (navigator.canPop()) {
-          navigator.pop();
-        } else if (_index != 0) {
-          setState(() => _index = 0);
+        if (router.canPop()) {
+          router.pop();
+        } else if (navigationShell.currentIndex > 0) {
+          navigationShell.goBranch(0);
         } else {
           SystemNavigator.pop();
         }
       },
       child: Scaffold(
-        body: IndexedStack(
-          index: _index,
-          children: [
-            RecordPage(key: _recordKey),
-            HistoryPage(key: _historyKey),
-            Navigator(
-              key: _accountNavigatorKey,
-              onGenerateRoute: (settings) {
-                return MaterialPageRoute(
-                  builder: (context) => const AccountPage(),
-                );
-              },
-            ),
-          ],
-        ),
+        body: navigationShell,
         bottomNavigationBar: NavigationBar(
-          selectedIndex: _index,
+          selectedIndex: navigationShell.currentIndex,
           onDestinationSelected: (value) {
             primaryFocus?.unfocus();
 
-            if (value == 1 && _recordKey.currentState!.shouldRefresh) {
-              _recordKey.currentState!.shouldRefresh = false;
-              _historyKey.currentState!.getRecords(goToToday: false);
-            }
-            setState(() => _index = value);
+            // if (value == 1 && _recordKey.currentState!.shouldRefresh) {
+            //   _recordKey.currentState!.shouldRefresh = false;
+            //   _historyKey.currentState!.getRecords(goToToday: false);
+            // }
+            navigationShell.goBranch(
+              value,
+              // 如果在同一 tab 再次點擊，是否要 pop 到該 tab 的根？
+              // doesn't work
+              initialLocation: value == navigationShell.currentIndex,
+            );
           },
           destinations: const [
             NavigationDestination(

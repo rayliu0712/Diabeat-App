@@ -3,6 +3,7 @@ import 'package:diabeat/routes/guest/auth_state.dart';
 import 'package:diabeat/network/session.dart' as session;
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -91,8 +92,8 @@ class _LoginPageState extends AuthState<LoginPage> {
         accessToken: data['access'],
         refreshToken: data['refresh'],
       );
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-      //
+      context.pop();
+      context.go('/record');
     } else {
       setState(() {
         waiting = false;

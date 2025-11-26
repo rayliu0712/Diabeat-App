@@ -1,5 +1,6 @@
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TimeoutDialog extends StatelessWidget {
   const TimeoutDialog._();
@@ -25,7 +26,7 @@ class TimeoutDialog extends StatelessWidget {
         children: [
           FilledButton.tonalIcon(
             onPressed: () {
-              Navigator.pop(context, true);
+              context.pop(true);
             },
             style: util.tonalPageButtonStyle(context),
             icon: const Icon(Icons.replay_rounded),
@@ -33,9 +34,7 @@ class TimeoutDialog extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           OutlinedButton.icon(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: context.pop,
             style: util.outlinedPageButtonStyle(),
             icon: const Icon(Icons.close_rounded),
             label: const Text('取消'),

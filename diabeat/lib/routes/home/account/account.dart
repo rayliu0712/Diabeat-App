@@ -1,8 +1,7 @@
 import 'package:diabeat/network/session.dart' as session;
-import 'package:diabeat/routes/home/account/consult/consult.dart';
-import 'package:diabeat/routes/home/account/predict_diabetes/predict_diabetes.dart';
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -32,7 +31,7 @@ class _AccountPageState extends State<AccountPage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            setState(() => _usernameOrEmail ^= true);
+            setState(() => _usernameOrEmail = !_usernameOrEmail);
           },
           icon: _usernameOrEmail
               ? const Icon(Icons.person)
@@ -45,13 +44,9 @@ class _AccountPageState extends State<AccountPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _card(
-              _insulinImage,
-              'AI 糖尿病風險檢測',
-              (context) => const PredictDiabetesPage(),
-            ),
+            _card(_insulinImage, 'AI 糖尿病風險檢測', '/account/predict_diabetes'),
             const SizedBox(height: 20),
-            _card(_healthImage, 'AI 健康諮詢', (context) => const ConsultPage()),
+            _card(_healthImage, 'AI 健康諮詢', '/account/consult'),
             const Spacer(),
             FilledButton.icon(
               onPressed: _logOut,
@@ -67,19 +62,15 @@ class _AccountPageState extends State<AccountPage> {
 
   void _logOut() {
     session.delete();
-    Navigator.of(context, rootNavigator: true).pushReplacementNamed('/guest');
+    context.go('/guest');
   }
 
-  Widget _card(
-    ImageProvider image,
-    String label,
-    Widget Function(BuildContext context) builder,
-  ) {
+  Widget _card(ImageProvider image, String label, String path) {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: builder));
+          context.push(path);
         },
         child: AspectRatio(
           aspectRatio: 16 / 9,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 /* */
 /* */
@@ -30,9 +31,7 @@ ButtonStyle outlinedPageButtonStyle() {
 
 Widget backIconButton(BuildContext context) {
   return IconButton(
-    onPressed: () {
-      Navigator.pop(context);
-    },
+    onPressed: context.pop,
     icon: const Icon(Icons.arrow_back_ios_new_rounded),
   );
 }

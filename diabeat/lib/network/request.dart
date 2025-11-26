@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:diabeat/network/dialog/refresh_failed_dialog.dart';
 import 'package:diabeat/network/session.dart' as session;
 import 'package:diabeat/network/dialog/timeout_dialog.dart';
@@ -23,6 +24,7 @@ Future<(bool, dynamic)> logIn(
         body: {'username_or_email': email, 'password': password},
       ),
     );
+    log('${jsonDecode(res.body)}');
 
     return (res.statusCode, res.body);
   });

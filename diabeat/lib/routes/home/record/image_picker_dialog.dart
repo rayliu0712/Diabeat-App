@@ -1,5 +1,6 @@
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerDialog extends StatelessWidget {
@@ -21,7 +22,7 @@ class ImagePickerDialog extends StatelessWidget {
       children: [
         FilledButton.icon(
           onPressed: () {
-            Navigator.pop(context, ImageSource.camera);
+            context.pop(ImageSource.camera);
           },
           style: util.filledPageButtonStyle(),
           label: const Text('拍照'),
@@ -30,7 +31,7 @@ class ImagePickerDialog extends StatelessWidget {
         const SizedBox(height: 10),
         FilledButton.tonalIcon(
           onPressed: () {
-            Navigator.pop(context, ImageSource.gallery);
+            context.pop(ImageSource.gallery);
           },
           style: util.tonalPageButtonStyle(context),
           icon: const Icon(Icons.photo_rounded),

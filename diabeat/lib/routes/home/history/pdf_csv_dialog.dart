@@ -1,5 +1,6 @@
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 enum PdfCsvEnum { pdf, csv }
 
@@ -23,7 +24,7 @@ class PdfCsvDialog extends StatelessWidget {
         children: [
           FilledButton(
             onPressed: () {
-              Navigator.pop(context, PdfCsvEnum.pdf);
+              context.pop(PdfCsvEnum.pdf);
             },
             style: util.filledPageButtonStyle(),
             child: const Text('PDF'),
@@ -31,7 +32,7 @@ class PdfCsvDialog extends StatelessWidget {
           const SizedBox(height: 10),
           FilledButton.tonal(
             onPressed: () {
-              Navigator.pop(context, PdfCsvEnum.csv);
+              context.pop(PdfCsvEnum.csv);
             },
             style: util.tonalPageButtonStyle(context),
             child: const Text('CSV'),
