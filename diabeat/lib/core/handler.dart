@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:diabeat/network/session.dart' as session;
+import 'package:diabeat/core/session.dart' as session;
+import 'package:diabeat/navigator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +13,6 @@ final _dio = Dio(
     validateStatus: (status) => true,
   ),
 );
-
-final navKey = GlobalKey<NavigatorState>();
 
 bool _isLocked = false;
 
@@ -57,7 +56,7 @@ Future<(bool, dynamic)> _handle(
       // wait for unlock
       await _refreshCompleter.future;
     }
-    options.headers = {'Authorization': 'Bearer ${session.accessToken}'};
+    options.headers = {'Authorization': 'Bearer ${session.access}'};
   }
 
   try {
@@ -69,7 +68,7 @@ Future<(bool, dynamic)> _handle(
 
     if (res.is401) {
       await _lockAndRefresh();
-      options.headers!['Authorization'] = 'Bearer ${session.accessToken}';
+      options.headers!['Authorization'] = 'Bearer ${session.access}';
       final retryRes = await _dio.request(path, data: data, options: options);
       return (retryRes.is2xx, retryRes.data);
     }
@@ -77,7 +76,7 @@ Future<(bool, dynamic)> _handle(
     return (false, res.data);
   } on DioException catch (e) {
     showDialog(
-      context: navKey.currentContext!,
+      context: globalContext,
       builder: (context) {
         return AlertDialog(title: Text(e.type.name));
       },
@@ -94,15 +93,14 @@ Future<void> _lockAndRefresh() async {
   try {
     final res = await _dio.post(
       '/token/refresh/',
-      data: {'refresh_token': session.refreshToken},
+      data: {'refresh_token': session.refresh},
     );
     final data = res.data;
 
-    session.save(
-      email: 'test@gmail.com',
-      username: data['username'],
-      accessToken: data['access'],
-      refreshToken: data['refresh'],
+    await session.logInAndWrite(
+      pUsername: data['username'],
+      pAccess: data['access'],
+      pRefresh: data['refresh'],
     );
 
     _isLocked = false;

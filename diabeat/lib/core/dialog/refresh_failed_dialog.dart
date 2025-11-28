@@ -1,4 +1,4 @@
-import 'package:diabeat/network/session.dart' as session;
+import 'package:diabeat/core/session.dart' as session;
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +14,7 @@ class RefreshFailedDialog extends StatelessWidget {
     );
     if (!context.mounted) return;
 
-    session.delete();
+    await session.logOutAndDelete();
 
     // Navigator.of(
     //   context,

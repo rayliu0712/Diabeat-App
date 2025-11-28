@@ -1,4 +1,4 @@
-import 'package:diabeat/network/handler.dart' as handler;
+import 'package:diabeat/core/handler.dart' as handler;
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 

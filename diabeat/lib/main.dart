@@ -1,5 +1,5 @@
-import 'package:diabeat/network/handler.dart' as handler;
-import 'package:diabeat/network/session.dart' as session;
+import 'package:diabeat/core/session.dart' as session;
+import 'package:diabeat/navigator.dart';
 import 'package:diabeat/routes/guest/guest.dart';
 import 'package:diabeat/routes/guest/login.dart';
 import 'package:diabeat/routes/guest/register.dart';
@@ -14,7 +14,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:go_router/go_router.dart';
 
 final _router = GoRouter(
-  navigatorKey: handler.navKey,
+  navigatorKey: navigatorKey,
   initialLocation: '/guest',
   routes: [
     GoRoute(
@@ -73,7 +73,7 @@ final _router = GoRouter(
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final existSession = await session.load();
+  final existSession = await session.initAndRead();
   runApp(_MainApp(existSession));
 }
 

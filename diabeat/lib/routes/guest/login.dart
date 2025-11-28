@@ -1,9 +1,9 @@
 import 'package:diabeat/routes/guest/auth_state.dart';
-import 'package:diabeat/network/session.dart' as session;
+import 'package:diabeat/core/session.dart' as session;
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:diabeat/network/request.dart' as request;
+import 'package:diabeat/core/request.dart' as request;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -87,12 +87,12 @@ class _LoginPageState extends AuthState<LoginPage> {
     if (!mounted) return;
 
     if (ok) {
-      session.save(
-        email: email,
-        username: data['username'],
-        accessToken: data['access'],
-        refreshToken: data['refresh'],
+      await session.logInAndWrite(
+        pUsername: data['username'],
+        pAccess: data['access'],
+        pRefresh: data['refresh'],
       );
+
       context.pop();
       context.go('/record');
     } else {
