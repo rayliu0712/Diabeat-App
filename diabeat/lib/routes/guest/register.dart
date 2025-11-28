@@ -94,7 +94,6 @@ class _RegisterPageState extends AuthState<RegisterPage> {
     setState(() => waiting = true);
 
     final (ok, data) = await request.register(
-      context,
       email: email,
       username: _username,
       password: password,

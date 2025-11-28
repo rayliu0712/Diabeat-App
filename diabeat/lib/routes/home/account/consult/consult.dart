@@ -40,7 +40,7 @@ class _ConsultPageState extends State<ConsultPage>
           ..forward();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final (ok, data) = await request.consult(context);
+      final (ok, data) = await request.consult();
       if (!mounted) return;
 
       _controller.stop();

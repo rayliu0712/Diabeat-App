@@ -149,7 +149,6 @@ class _PredictDiabetesPageState extends State<PredictDiabetesPage> {
           PredictDiabetesFields.bmi = double.parse(bmi.toStringAsFixed(1));
 
           final (ok, data) = await request.predictDiabetes(
-            context,
             gender: PredictDiabetesFields.gender,
             age: PredictDiabetesFields.age,
             bmi: PredictDiabetesFields.bmi,

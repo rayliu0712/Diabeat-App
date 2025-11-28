@@ -103,7 +103,6 @@ class RecordPageState extends State<RecordPage> {
     setState(() => _waitingPostRecord = true);
 
     final (ok, data) = await request.postRecord(
-      context,
       glucose: _managers[0].value!,
       carbohydrate: _managers[1].value,
       exercise: _managers[2].value,
@@ -137,7 +136,7 @@ class RecordPageState extends State<RecordPage> {
     if (image == null || !mounted) return;
     setState(() => _waitingPredictCarbs = true);
 
-    final (ok, data) = await request.predictCarbs(context, image);
+    final (ok, data) = await request.predictCarbs(xFile: image);
     if (!mounted) return;
 
     if (ok) {

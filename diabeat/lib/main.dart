@@ -1,3 +1,4 @@
+import 'package:diabeat/network/handler.dart' as handler;
 import 'package:diabeat/network/session.dart' as session;
 import 'package:diabeat/routes/guest/guest.dart';
 import 'package:diabeat/routes/guest/login.dart';
@@ -13,6 +14,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:go_router/go_router.dart';
 
 final _router = GoRouter(
+  navigatorKey: handler.navKey,
   initialLocation: '/guest',
   routes: [
     GoRoute(

@@ -164,7 +164,7 @@ class HistoryPageState extends State<HistoryPage> {
   Future<void> getRecords({required bool goToToday}) async {
     setState(() => _waitingRefresh = true);
 
-    final (ok, multiData) = await request.getRecords(context);
+    final (ok, multiData) = await request.getRecords();
     if (!mounted) return;
 
     if (ok) {

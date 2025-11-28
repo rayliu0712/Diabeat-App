@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:diabeat/routes/home/account/account.dart';
 import 'package:diabeat/routes/home/history/history.dart';
 import 'package:diabeat/routes/home/record/record.dart';
 import 'package:flutter/material.dart';

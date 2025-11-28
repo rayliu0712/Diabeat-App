@@ -1,5 +1,3 @@
-import 'package:diabeat/routes/guest/login.dart';
-import 'package:diabeat/routes/guest/register.dart';
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

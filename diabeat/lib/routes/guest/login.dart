@@ -1,9 +1,9 @@
-import 'package:diabeat/network/request.dart' as request;
 import 'package:diabeat/routes/guest/auth_state.dart';
 import 'package:diabeat/network/session.dart' as session;
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:diabeat/network/request.dart' as request;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -78,11 +78,12 @@ class _LoginPageState extends AuthState<LoginPage> {
     primaryFocus?.unfocus();
     setState(() => waiting = true);
 
-    final (ok, data) = await request.logIn(
-      context,
-      email: email,
-      password: password,
-    );
+    // final (ok, data) = await request.logIn(
+    //   context,
+    //   email: email,
+    //   password: password,
+    // );
+    final (ok, data) = await request.logIn(email: email, password: password);
     if (!mounted) return;
 
     if (ok) {
