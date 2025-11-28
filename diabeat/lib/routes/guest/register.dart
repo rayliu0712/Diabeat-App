@@ -1,5 +1,5 @@
 import 'package:diabeat/core/request.dart' as request;
-import 'package:diabeat/navigator.dart';
+import 'package:diabeat/keys.dart';
 import 'package:diabeat/routes/guest/auth_state.dart';
 import 'package:diabeat/core/session.dart' as session;
 import 'package:diabeat/util.dart' as util;

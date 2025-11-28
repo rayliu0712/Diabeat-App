@@ -1,4 +1,4 @@
-import 'package:diabeat/routes/home/account/predict_diabetes/fields.dart';
+import 'package:diabeat/routes/home/account/diabetes_form/fields.dart';
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 
@@ -44,7 +44,7 @@ class Page3State extends State<Page3> {
       false => Column(
         children: [
           Row(
-            children: PredictDiabetesFields.prediction
+            children: DiabetesFormFields.prediction
                 ? [
                     const Icon(
                       Icons.warning_rounded,
@@ -64,22 +64,22 @@ class Page3State extends State<Page3> {
           ),
           const SizedBox(height: 20),
           util.figureCard('基本資料', [
-            ('性別', PredictDiabetesFields.genderText, null),
-            ('年齡', PredictDiabetesFields.age, '歲'),
-            ('身高', PredictDiabetesFields.height, 'cm'),
-            ('體重', PredictDiabetesFields.weight, 'kg'),
-            ('BMI', PredictDiabetesFields.bmi, 'kg/m^2'),
+            ('性別', DiabetesFormFields.genderString, null),
+            ('年齡', DiabetesFormFields.age, '歲'),
+            ('身高', DiabetesFormFields.height, 'cm'),
+            ('體重', DiabetesFormFields.weight, 'kg'),
+            ('BMI', DiabetesFormFields.bmi, 'kg/m^2'),
           ]),
           const SizedBox(height: 10),
           util.figureCard('疾病史 / 吸菸史', [
-            ('高血壓', PredictDiabetesFields.hypertension ? '有' : '無', null),
-            ('心臟病', PredictDiabetesFields.heartDisease ? '有' : '無', null),
-            ('吸菸史', PredictDiabetesFields.smokingHistoryText, null),
+            ('高血壓', DiabetesFormFields.hypertension ? '有' : '無', null),
+            ('心臟病', DiabetesFormFields.heartDisease ? '有' : '無', null),
+            ('吸菸史', DiabetesFormFields.smokingHistoryText, null),
           ]),
           const SizedBox(height: 10),
           util.figureCard('血糖值 / 糖化血色素', [
-            ('血糖值', PredictDiabetesFields.glucose, 'mg/dL'),
-            ('糖化血色素', PredictDiabetesFields.hba1c, '%'),
+            ('血糖值', DiabetesFormFields.glucose, 'mg/dL'),
+            ('糖化血色素', DiabetesFormFields.hba1c, '%'),
           ]),
         ],
       ),

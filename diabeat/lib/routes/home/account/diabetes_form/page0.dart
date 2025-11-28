@@ -1,4 +1,4 @@
-import 'package:diabeat/routes/home/account/predict_diabetes/fields.dart';
+import 'package:diabeat/routes/home/account/diabetes_form/fields.dart';
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class Page0 extends StatelessWidget {
         FormField<String>(
           validator: util.nonEmptyValidator,
           onSaved: (newValue) {
-            PredictDiabetesFields.gender = newValue!;
+            DiabetesFormFields.gender = newValue!;
           },
           builder: (field) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class Page0 extends StatelessWidget {
           decoration: util.inputBorder('年齡'),
           validator: util.nonEmptyValidator,
           onSaved: (newValue) {
-            PredictDiabetesFields.age = int.parse(newValue!);
+            DiabetesFormFields.age = int.parse(newValue!);
           },
         ),
         const SizedBox(height: 20),
@@ -73,7 +73,7 @@ class Page0 extends StatelessWidget {
           decoration: util.inputBorder('身高 (cm)'),
           validator: util.nonEmptyValidator,
           onSaved: (newValue) {
-            PredictDiabetesFields.height = double.parse(newValue!);
+            DiabetesFormFields.height = double.parse(newValue!);
           },
         ),
         const SizedBox(height: 20),
@@ -85,7 +85,7 @@ class Page0 extends StatelessWidget {
           decoration: util.inputBorder('體重 (kg)'),
           validator: util.nonEmptyValidator,
           onSaved: (newValue) {
-            PredictDiabetesFields.weight = double.parse(newValue!);
+            DiabetesFormFields.weight = double.parse(newValue!);
           },
         ),
       ],

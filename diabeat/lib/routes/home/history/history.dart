@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:csv/csv.dart';
+import 'package:diabeat/routes/home/history/date_time_ext.dart';
 import 'package:diabeat/routes/home/history/pdf_csv_dialog.dart';
 import 'package:diabeat/core/request.dart' as request;
 import 'package:diabeat/core/session.dart' as session;
@@ -18,8 +19,8 @@ class _Record {
 
   List<String?> toCsvRow() {
     return [
-      _humanDate(dateTime),
-      _humanTime(dateTime),
+      dateTime.dateString,
+      dateTime.timeString,
       glucose.toString(),
       carbs?.toString(),
       exercise?.toString(),
@@ -45,9 +46,15 @@ class HistoryPageState extends State<HistoryPage> {
   final _csvSerializer = const ListToCsvConverter();
   final _records = <DateTime, List<_Record>>{};
   final _firstDate = DateTime(2024);
-  DateTime _date = _todayDate();
+  DateTime _date = todayDate;
   bool _waitingRefresh = false;
   bool _waitingMakeDumps = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getRecords(goToday: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +66,9 @@ class HistoryPageState extends State<HistoryPage> {
             ? null
             : IconButton(
                 onPressed: () {
-                  setState(
-                    () => _date = _date.subtract(const Duration(days: 1)),
-                  );
+                  setState(() {
+                    _date = _date.subtract(const Duration(days: 1));
+                  });
                 },
                 icon: const Icon(Icons.arrow_back_rounded),
               ),
@@ -71,7 +78,7 @@ class HistoryPageState extends State<HistoryPage> {
             final dateTime = await showDatePicker(
               context: context,
               firstDate: _firstDate,
-              lastDate: _todayDate(),
+              lastDate: todayDate,
               initialDate: _date,
             );
 
@@ -80,13 +87,15 @@ class HistoryPageState extends State<HistoryPage> {
             }
           },
           style: util.filledPageButtonStyle(),
-          child: Text(_humanDate(_date)),
+          child: Text(_date.dateString),
         ),
         actions: [
-          if (_date != _todayDate())
+          if (_date != todayDate)
             IconButton(
               onPressed: () {
-                setState(() => _date = _date.add(const Duration(days: 1)));
+                setState(() {
+                  _date = _date.add(const Duration(days: 1));
+                });
               },
               icon: const Icon(Icons.arrow_forward_rounded),
             ),
@@ -103,7 +112,7 @@ class HistoryPageState extends State<HistoryPage> {
                 if (thisDayRecord == null) return null;
                 final item = thisDayRecord[index];
 
-                return util.figureCard(_humanTime(item.dateTime), [
+                return util.figureCard(item.dateTime.timeString, [
                   ('血糖', item.glucose, 'mg/dL'),
                   ('碳水', item.carbs, 'g'),
                   ('運動', item.exercise, 'min'),
@@ -123,7 +132,7 @@ class HistoryPageState extends State<HistoryPage> {
                     onPressed: _waitingRefresh
                         ? null
                         : () {
-                            getRecords(goToToday: true);
+                            getRecords(goToday: true);
                           },
                     icon: _waitingRefresh
                         ? util.smallCircularProgressIndicator()
@@ -161,7 +170,7 @@ class HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  Future<void> getRecords({required bool goToToday}) async {
+  Future<void> getRecords({required bool goToday}) async {
     setState(() => _waitingRefresh = true);
 
     final (ok, multiData) = await request.getRecords();
@@ -174,18 +183,20 @@ class HistoryPageState extends State<HistoryPage> {
         _records.clear();
         for (final data in multiData) {
           final record = _Record(data);
-          _records
-              .putIfAbsent(_onlyDate(record.dateTime), () => [])
-              .add(record);
+          _records.putIfAbsent(record.dateTime.date, () => []).add(record);
         }
 
-        if (goToToday) {
-          _date = _todayDate();
+        if (goToday) {
+          _date = todayDate;
         }
       });
     } else {
       setState(() => _waitingRefresh = false);
     }
+  }
+
+  void goToday() {
+    setState(() => _date = todayDate);
   }
 
   Future<void> _export(PdfCsvEnum nav) async {
@@ -207,7 +218,7 @@ class HistoryPageState extends State<HistoryPage> {
     }
 
     final filename =
-        '${session.username}_DiabeatHistory_${DateTime.now().toIso8601String()}';
+        '${session.username}_DiabeatHistory_${today.toIso8601String()}';
 
     final ShareParams shareParams;
     switch (nav) {
@@ -251,24 +262,4 @@ class HistoryPageState extends State<HistoryPage> {
 
     await SharePlus.instance.share(shareParams);
   }
-}
-
-/* */
-/* */
-/* */
-
-DateTime _onlyDate(DateTime dateTime) {
-  return DateTime(dateTime.year, dateTime.month, dateTime.day);
-}
-
-DateTime _todayDate() {
-  return _onlyDate(DateTime.now());
-}
-
-String _humanDate(DateTime dateTime) {
-  return '${dateTime.year}-${util.pad2Zero(dateTime.month)}-${util.pad2Zero(dateTime.day)}';
-}
-
-String _humanTime(DateTime dateTime) {
-  return '${util.pad2Zero(dateTime.hour)}:${util.pad2Zero(dateTime.minute)}';
 }

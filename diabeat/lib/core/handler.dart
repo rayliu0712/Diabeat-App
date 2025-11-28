@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:diabeat/core/session.dart' as session;
-import 'package:diabeat/navigator.dart';
+import 'package:diabeat/keys.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

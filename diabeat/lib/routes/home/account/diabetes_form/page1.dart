@@ -1,4 +1,4 @@
-import 'package:diabeat/routes/home/account/predict_diabetes/fields.dart';
+import 'package:diabeat/routes/home/account/diabetes_form/fields.dart';
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 
@@ -18,17 +18,17 @@ class _Page1State extends State<Page1> {
         const Text('疾病史', style: TextStyle(fontSize: 16)),
         CheckboxListTile(
           title: const Text('高血壓'),
-          value: PredictDiabetesFields.hypertension,
+          value: DiabetesFormFields.hypertension,
           onChanged: (value) {
-            setState(() => PredictDiabetesFields.hypertension = value!);
+            setState(() => DiabetesFormFields.hypertension = value!);
           },
           controlAffinity: ListTileControlAffinity.leading,
         ),
         CheckboxListTile(
           title: const Text('心臟病', style: TextStyle(fontSize: 16)),
-          value: PredictDiabetesFields.heartDisease,
+          value: DiabetesFormFields.heartDisease,
           onChanged: (value) {
-            setState(() => PredictDiabetesFields.heartDisease = value!);
+            setState(() => DiabetesFormFields.heartDisease = value!);
           },
           controlAffinity: ListTileControlAffinity.leading,
         ),
@@ -36,7 +36,7 @@ class _Page1State extends State<Page1> {
         FormField<String>(
           validator: util.nonEmptyValidator,
           onSaved: (newValue) {
-            PredictDiabetesFields.smokingHistory = newValue!;
+            DiabetesFormFields.smokingHistory = newValue!;
           },
           builder: (field) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class _Page1State extends State<Page1> {
                 ),
                 style: const TextStyle(fontSize: 16),
               ),
-              ...PredictDiabetesFields.smokingHistoryMap.entries.map(
+              ...DiabetesFormFields.smokingHistoryMap.entries.map(
                 (e) => RadioListTile(
                   title: Text(e.value),
                   value: e.key,

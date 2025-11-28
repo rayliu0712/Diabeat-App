@@ -1,5 +1,5 @@
-class PredictDiabetesFields {
-  const PredictDiabetesFields._();
+class DiabetesFormFields {
+  const DiabetesFormFields._();
 
   // page 0
   static late String gender;
@@ -7,7 +7,7 @@ class PredictDiabetesFields {
   static late double height;
   static late double weight;
   static late double bmi;
-  static String get genderText => gender == 'male' ? '男' : '女';
+  static String get genderString => gender == 'male' ? '男' : '女';
 
   // page 1
   static bool hypertension = false;

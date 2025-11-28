@@ -1,4 +1,4 @@
-import 'package:diabeat/routes/home/account/predict_diabetes/fields.dart';
+import 'package:diabeat/routes/home/account/diabetes_form/fields.dart';
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class Page2 extends StatelessWidget {
         TextFormField(
           validator: util.nonEmptyValidator,
           onSaved: (newValue) {
-            PredictDiabetesFields.glucose = double.parse(newValue!);
+            DiabetesFormFields.glucose = double.parse(newValue!);
           },
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: const [util.UdoubleFormatter()],
@@ -28,7 +28,7 @@ class Page2 extends StatelessWidget {
           focusNode: _hba1cFocus,
           validator: util.nonEmptyValidator,
           onSaved: (newValue) {
-            PredictDiabetesFields.hba1c = double.parse(newValue!);
+            DiabetesFormFields.hba1c = double.parse(newValue!);
           },
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: const [util.UdoubleFormatter()],

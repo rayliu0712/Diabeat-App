@@ -1,50 +1,27 @@
-import 'package:diabeat/routes/home/history/history.dart';
-import 'package:diabeat/routes/home/record/record.dart';
+import 'dart:developer';
+
+import 'package:diabeat/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
-  final _recordKey = GlobalKey<RecordPageState>();
-  final _historyKey = GlobalKey<HistoryPageState>();
-  final _accountNavigatorKey = GlobalKey<NavigatorState>();
 
-  HomePage({super.key, required this.navigationShell});
+  const HomePage({super.key, required this.navigationShell});
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        final router = GoRouter.of(context);
-
-        if (router.canPop()) {
-          router.pop();
-        } else if (navigationShell.currentIndex > 0) {
-          navigationShell.goBranch(0);
-        } else {
-          SystemNavigator.pop();
-        }
+        _onPop(context, didPop, result);
       },
       child: Scaffold(
         body: navigationShell,
         bottomNavigationBar: NavigationBar(
           selectedIndex: navigationShell.currentIndex,
-          onDestinationSelected: (value) {
-            primaryFocus?.unfocus();
-
-            // if (value == 1 && _recordKey.currentState!.shouldRefresh) {
-            //   _recordKey.currentState!.shouldRefresh = false;
-            //   _historyKey.currentState!.getRecords(goToToday: false);
-            // }
-            navigationShell.goBranch(
-              value,
-              // 如果在同一 tab 再次點擊，是否要 pop 到該 tab 的根？
-              // doesn't work
-              initialLocation: value == navigationShell.currentIndex,
-            );
-          },
+          onDestinationSelected: _onDestinationSelected,
           destinations: const [
             NavigationDestination(
               label: '紀錄',
@@ -65,5 +42,38 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onPop(BuildContext context, bool didPop, Object? result) {
+    if (didPop) {
+      return;
+    }
+
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+
+    if (navigationShell.currentIndex > 0) {
+      navigationShell.goBranch(0);
+      return;
+    }
+
+    SystemNavigator.pop();
+  }
+
+  void _onDestinationSelected(int index) {
+    primaryFocus?.unfocus();
+
+    if (index == 1) {
+      if (recordPageKey.currentState!.shouldRefresh) {
+        recordPageKey.currentState!.shouldRefresh = false;
+        historyPageKey.currentState?.getRecords(goToday: false);
+      } else if (navigationShell.currentIndex == 1) {
+        historyPageKey.currentState!.goToday();
+      }
+    }
+
+    navigationShell.goBranch(index);
   }
 }

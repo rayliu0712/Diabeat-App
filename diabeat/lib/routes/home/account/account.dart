@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AccountPage extends StatelessWidget {
-  final _insulinImage = const AssetImage('assets/insulin.jpg');
-  final _healthImage = const AssetImage('assets/health.jpg');
-  const AccountPage({super.key});
+  final AssetImage insulinImg;
+  final AssetImage healthImg;
+  const AccountPage({
+    super.key,
+    required this.insulinImg,
+    required this.healthImg,
+  });
 
   @override
   Widget build(BuildContext context) {
-    precacheImage(_insulinImage, context);
-    precacheImage(_healthImage, context);
-
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.person),
@@ -25,12 +26,12 @@ class AccountPage extends StatelessWidget {
           children: [
             _card(
               context,
-              _insulinImage,
+              insulinImg,
               'AI 糖尿病風險檢測',
               '/account/predict_diabetes',
             ),
             const SizedBox(height: 20),
-            _card(context, _healthImage, 'AI 健康諮詢', '/account/consult'),
+            _card(context, healthImg, 'AI 健康諮詢', '/account/consult'),
             const Spacer(),
             FilledButton.icon(
               onPressed: () {

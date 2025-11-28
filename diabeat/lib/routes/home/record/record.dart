@@ -1,5 +1,6 @@
 import 'package:diabeat/routes/home/record/image_picker_dialog.dart';
 import 'package:diabeat/core/request.dart' as request;
+import 'package:diabeat/routes/home/record/udouble_field.dart';
 import 'package:diabeat/util.dart' as util;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,10 +15,10 @@ class RecordPage extends StatefulWidget {
 class RecordPageState extends State<RecordPage> {
   final _formKey = GlobalKey<FormState>();
   final _managers = [
-    _UdoubleFieldManager('血糖值 (mg/dL)'),
-    _UdoubleFieldManager('碳水攝取量 (g)'),
-    _UdoubleFieldManager('運動時長 (min)'),
-    _UdoubleFieldManager('胰島素注射量 (U)'),
+    UdoubleFieldManager('血糖值 (mg/dL)'),
+    UdoubleFieldManager('碳水攝取量 (g)'),
+    UdoubleFieldManager('運動時長 (min)'),
+    UdoubleFieldManager('胰島素注射量 (U)'),
   ];
   final _picker = ImagePicker();
   bool _waitingPostRecord = false;
@@ -119,7 +120,7 @@ class RecordPageState extends State<RecordPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('傳送成功'),
+          content: Text('紀錄成功'),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -168,14 +169,4 @@ class RecordPageState extends State<RecordPage> {
       decoration: util.inputBorder(man.labelText),
     );
   }
-}
-
-class _UdoubleFieldManager {
-  _UdoubleFieldManager(this.labelText);
-
-  final controller = TextEditingController();
-  final focusNode = FocusNode();
-  final String labelText;
-
-  double? get value => double.tryParse(controller.text);
 }
